@@ -1,100 +1,161 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" /><title>Mon 1er jeu Phaser</title>
-    <script
+<meta charset="UTF-8" /><title>Mon 1er jeu Phaser</title>
+<script
 src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-    <style type="text/css"> body { margin: 0; }</style>
+<style type="text/css"> body { margin: 0; }</style>
 </head>
 <body>
-    <script type="text/javascript">
-        var config = {
-            type: Phaser.AUTO,
-            width: 800, height: 600,
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 300 },
-                    debug: false,
-                }
-            },
-            scene: {preload: preload, create: create, update: update }
-        };
-        new Phaser.Game(config);
-    
-        function preload(){
-            this.load.image('sky', 'assets/sky.png');
-            this.load.image('ground', 'assets/platform.png');
-            this.load.image('star', 'assets/star.png');
-            this.load.image('bomb', 'assets/bomb.png');
-            this.load.spritesheet('perso','assets/perso.png',
-                { frameWidth: 32, frameHeight: 48 });
-            this.load.image('mort','assets/perso.png')
-        }
-    
-        var platforms;
-        var player;
+<script type="text/javascript">
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        physics: {
+            default: 'arcade',
+            arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }},
+        height: 600,
+        scene: {preload: preload, create: create, update: update }
+    };
+    new Phaser.Game(config);
+    function preload(){
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('bomb', 'assets/bomb.png');
+        this.load.spritesheet('perso','assets/perso.png',
+        { frameWidth: 32, frameHeight: 48 });
+
+        this.load.image("Phaser_tuilesdejeu","assets/tileset_pour_de_vrai.png");
+        this.load.image("carte","assets/premier_niveau.json");
+    }
+    var platforms;
+    var player;
+
+    function create(){
+        this.add.image(400, 300, 'sky');
+        platforms = this.physics.add.staticGroup();
+        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        platforms.create(600, 400, 'ground');
+        platforms.create(50, 250, 'ground');
+        platforms.create(750, 220, 'ground');
+
+        // chargement de la carte
+        const carteDuNiveau = this.add.tilemap("carte");
+
+        // chargement du jeu de tuiles
+        const tileset = carteDuNiveau.addTilesetImage(
+          "tileset_pour_de_vrai",
+          "Phaser_tuilesdejeu"
+        );  
+
+        //les caaaaalques (oskour)
+
+        const calque_fond_general = carteDuNiveau.createLayer(
+          "fond_general",
+          tileset
+        );
+        const calque_fond_2_fenetre = carteDuNiveau.createLayer(
+          "fond_2_fenetre",
+          tileset
+        );
+        const calque_fond = carteDuNiveau.createLayer(
+          "fond",
+          tileset
+        );
+        const calque_fond_2_bords_fenetre = carteDuNiveau.createLayer(
+          "fond_2 _bords_fenetre",
+          tileset
+        );
+        const calque_fume_rouge_verte = carteDuNiveau.createLayer(
+          "fume_rouge_verte",
+          tileset
+        );
+        const calque_fond_1_tuyaux = carteDuNiveau.createLayer(
+          "fond_1_tuyaux",
+          tileset
+        );
+        const calque_objets_interactifs = carteDuNiveau.createLayer(
+          "objets_interactifs",
+          tileset
+        );
+        const calque_portails = carteDuNiveau.createLayer(
+          "portails",
+          tileset
+        );
+        const calque_piques = carteDuNiveau.createLayer(
+          "piques",
+          tileset
+        );
+        const calque_portails_effets = carteDuNiveau.createLayer(
+          "portails_effets",
+          tileset
+        );
+        const calque_lave = carteDuNiveau.createLayer(
+          "lave",
+          tileset
+        );
+        const calque_plateformes = carteDuNiveau.createLayer(
+          "murs_sols",
+          tileset
+        );
+        calque_plateformes.setCollisionByProperty({ estSolide: true }); 
+        const calque_premier_plan = carteDuNiveau.createLayer(
+          "premier_plan",
+          tileset
+        );
 
         
-        function create(){
-            this.add.image(400, 300, 'sky');
-    
-            this.add.image(400, 300, 'sky');
-            platforms = this.physics.add.staticGroup();
-            platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-            platforms.create(600, 400, 'ground');
-            platforms.create(50, 250, 'ground');
-            platforms.create(750, 220, 'ground');
-    
-            player = this.physics.add.sprite(100, 450, 'perso');
-            player.setBounce(0.2);
-            player.setCollideWorldBounds(true);
-            this.physics.add.collider(player, platforms);
-    
+        
+        
+
+        //joueur :
+        player = this.physics.add.sprite(100, 450, 'perso');
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+        this.physics.add.collider(player, platforms);
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
             this.anims.create({
-                key: 'left',
-                frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'turn',
-                frames: [ { key: 'perso', frame: 4 } ],
-                frameRate: 20
-            });
-            this.anims.create({
-                key: 'right',
-                frames: this.anims.generateFrameNumbers('perso', {start:5,end:8}),
-                frameRate: 10,
-                repeat: -1
-            });
-            cursors = this.input.keyboard.createCursorKeys();
+            key: 'turn',
+            frames: [ { key: 'perso', frame: 4 } ],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('perso', {start:5,end:8}),
+            frameRate: 10,
+            repeat: -1
+        });
+        cursors = this.input.keyboard.createCursorKeys();
+
+    }
+    function update(){
+        if (cursors.left.isDown){ //si la touche gauche est appuyée
+            player.setVelocityX(-160); //alors vitesse négative en X
+            player.anims.play('left', true); //et animation => gauche
         }
-    
-    
-        function update(){
-            if (gameOver){return;}
-            if (cursors.left.isDown){ //si la touche gauche est appuyée
-                player.setVelocityX(-160); //alors vitesse négative en X
-                player.anims.play('left', true); //et animation => gauche
-            }
-            else if (cursors.right.isDown){ //sinon si la touche droite est appuyée
-                player.setVelocityX(160); //alors vitesse positive en X
-                player.anims.play('right', true); //et animation => droite
-            }
-            else{ // sinon
-                player.setVelocityX(0); //vitesse nulle
-                player.anims.play('turn'); //animation fait face caméra
-            }
-            if (cursors.up.isDown && player.body.touching.down){
-                //si touche haut appuyée ET que le perso touche le sol
-                player.setVelocityY(-330); //alors vitesse verticale négative
-                //(on saute)
-            }
+        else if (cursors.right.isDown){ //sinon si la touche droite est appuyée
+            player.setVelocityX(160); //alors vitesse positive en X
+            player.anims.play('right', true); //et animation => droite
         }
-    
-    
-    
-    </script>
+        else{ // sinon
+            player.setVelocityX(0); //vitesse nulle
+            player.anims.play('turn'); //animation fait face caméra
+        }
+        if (cursors.up.isDown && player.body.touching.down){
+            //si touche haut appuyée ET que le perso touche le sol
+            player.setVelocityY(-330); //alors vitesse verticale négative
+            //(on saute)
+        }
+    }
+</script>
 </body>
 </html>
