@@ -21,28 +21,18 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         scene: {preload: preload, create: create, update: update }
     };
     new Phaser.Game(config);
+
     function preload(){
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('perso','assets/perso.png',
         { frameWidth: 32, frameHeight: 48 });
 
         this.load.image("Phaser_tuilesdejeu","assets/tileset_pour_de_vrai.png");
-        this.load.image("carte","assets/premier_niveau.json");
+        this.load.tilemapTiledJSON("carte","assets/premier_niveau.json");
     }
     var platforms;
     var player;
 
     function create(){
-        this.add.image(400, 300, 'sky');
-        platforms = this.physics.add.staticGroup();
-        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        platforms.create(600, 400, 'ground');
-        platforms.create(50, 250, 'ground');
-        platforms.create(750, 220, 'ground');
-
         // chargement de la carte
         const carteDuNiveau = this.add.tilemap("carte");
 
@@ -54,69 +44,43 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         //les caaaaalques (oskour)
 
-        const calque_fond_general = carteDuNiveau.createLayer(
-          "fond_general",
-          tileset
-        );
-        const calque_fond_2_fenetre = carteDuNiveau.createLayer(
-          "fond_2_fenetre",
+        const calque_terre = carteDuNiveau.createLayer(
+          "terre",
           tileset
         );
         const calque_fond = carteDuNiveau.createLayer(
           "fond",
           tileset
         );
-        const calque_fond_2_bords_fenetre = carteDuNiveau.createLayer(
-          "fond_2 _bords_fenetre",
+        const calque_bordsFenetre = carteDuNiveau.createLayer(
+          "bordsFenetre",
           tileset
         );
-        const calque_fume_rouge_verte = carteDuNiveau.createLayer(
-          "fume_rouge_verte",
-          tileset
-        );
-        const calque_fond_1_tuyaux = carteDuNiveau.createLayer(
-          "fond_1_tuyaux",
-          tileset
-        );
-        const calque_objets_interactifs = carteDuNiveau.createLayer(
-          "objets_interactifs",
-          tileset
-        );
-        const calque_portails = carteDuNiveau.createLayer(
-          "portails",
+        const calque_fumeRouge = carteDuNiveau.createLayer(
+          "fumeRouge",
           tileset
         );
         const calque_piques = carteDuNiveau.createLayer(
           "piques",
           tileset
         );
-        const calque_portails_effets = carteDuNiveau.createLayer(
-          "portails_effets",
-          tileset
-        );
-        const calque_lave = carteDuNiveau.createLayer(
-          "lave",
-          tileset
-        );
         const calque_plateformes = carteDuNiveau.createLayer(
-          "murs_sols",
+          "murSol",
           tileset
         );
+        
+        const calque_premierPlan = carteDuNiveau.createLayer(
+          "premPlan",
+          tileset
+        );
+        // définition des tuiles de plateformes qui sont solides
+        // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
-        const calque_premier_plan = carteDuNiveau.createLayer(
-          "premier_plan",
-          tileset
-        );
-
-        
-        
-        
 
         //joueur :
         player = this.physics.add.sprite(100, 450, 'perso');
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
-        this.physics.add.collider(player, platforms);
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
@@ -135,6 +99,9 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             repeat: -1
         });
         cursors = this.input.keyboard.createCursorKeys();
+
+        //collision jouer et calques plateformes
+        this.physics.add.collider(player, calque_plateformes); 
 
     }
     function update(){
