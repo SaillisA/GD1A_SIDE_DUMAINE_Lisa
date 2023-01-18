@@ -64,14 +64,16 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           "piques",
           tileset
         );
+
         const calque_plateformes = carteDuNiveau.createLayer(
           "murSol",
           tileset
         );
-        
+
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
+
 
         //joueur :
         player = this.physics.add.sprite(50, 1550, 'perso');
@@ -95,6 +97,39 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             repeat: -1
         });
         cursors = this.input.keyboard.createCursorKeys();
+        
+        const calque_teleporteBleu = carteDuNiveau.createLayer(
+          "tpbleu",
+          tileset
+        );
+        const calque_teleporteVert = carteDuNiveau.createLayer(
+          "tpvert",
+          tileset
+        );
+        const calque_teleporteRouge = carteDuNiveau.createLayer(
+          "tprouge",
+          tileset
+        );
+        const calque_teleporteBigViolet = carteDuNiveau.createLayer(
+          "tpviolet",
+          tileset
+        );
+        const calque_teleporteBleuFonce = carteDuNiveau.createLayer(
+          "tpbf",
+          tileset
+        );
+        const calque_teleporteBleuClair = carteDuNiveau.createLayer(
+          "tpbc",
+          tileset
+        );
+        const calque_teleporteRose = carteDuNiveau.createLayer(
+          "tpr",
+          tileset
+        );
+        const calque_teleporteViolet = carteDuNiveau.createLayer(
+          "tpv",
+          tileset
+        );
         const calque_premierPlan = carteDuNiveau.createLayer(
           "premPlan",
           tileset
@@ -126,7 +161,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       }
       if (cursors.up.isDown && player.body.blocked.down) {
           //si touche haut appuyée ET que le perso touche le sol
-          player.setVelocityY(-700); //alors vitesse verticale négative
+          player.setVelocityY(-200); //alors vitesse verticale négative
           //(on saute)
         } 
     }
