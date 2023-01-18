@@ -76,7 +76,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
 
         //joueur :
-        player = this.physics.add.sprite(50, 1550, 'perso');
+        player = this.physics.add.sprite(50, 1500, 'perso');
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
@@ -143,7 +143,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         //  ajout du champs de la caméra de taille identique à celle du monde
         this.cameras.main.setBounds(0, 0, 1600, 1600);
         // ancrage de la caméra sur le joueur
-        this.cameras.main.startFollow(player);  
+        this.cameras.main.startFollow(player);
+        this.cameras.main.setZoom(3.5);
 
     }
     function update(){
