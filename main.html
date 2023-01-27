@@ -170,19 +170,20 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         if(player.body.x >178 && player.body.x <207){
           player.body.position.x = 1439
           player.body.position.y = 1488
-          console.log("Aller")
+          console.log("BLEUAller")
         }
         else if(player.body.x >1461 && player.body.x <1485){
           player.body.position.x = 159
           player.body.position.y = 1520
-          console.log("retour")
+          console.log("BLEUretour")
         }
 
 
         //TP petit violet aller/retour
-        else if(player.body.x >1024 && player.body.x <1034){
-          player.body.position.x = 1400
-          player.body.position.y = 1300
+        else if(player.body.x ==1024 ){
+          player.body.position.x = 100
+          player.body.position.y = 50
+          console.log("violetaller")
         }
         
 
@@ -190,20 +191,24 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         else if(player.body.x >885 && player.body.x <909){
           player.body.position.x = 1407
           player.body.position.y = 1360
+          console.log("bleuciel")
         }
         else if(player.body.x >1362 && player.body.x <1389){
           player.body.position.x = 928
           player.body.position.y = 1040
+          console.log("bleuretour")
         }
 
         //TP vert aller/retour
         else if(player.body.x >273 && player.body.x <303){
           player.body.position.x = 126
           player.body.position.y = 1328
+          console.log("VERTaller")
         }
-        else if(player.body.x >85 && player.body.x <107){
+        else if(player.body.x >83 && player.body.x <107){
           player.body.position.x = 319
           player.body.position.y = 1520
+          console.log("VERTretour")
         }
       }
     }
