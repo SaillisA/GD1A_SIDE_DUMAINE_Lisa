@@ -70,6 +70,14 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           tileset
         );
 
+        const calque_base = carteDuNiveau.createLayer(
+          "base",
+          tileset
+        );
+        const calque_effet = carteDuNiveau.createLayer(
+          "effet",
+          tileset
+        );
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
@@ -98,38 +106,11 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         });
         cursors = this.input.keyboard.createCursorKeys();
         
-        const calque_teleporteBleu = carteDuNiveau.createLayer(
-          "tpbleu",
+        const calque_lave = carteDuNiveau.createLayer(
+          "lave",
           tileset
         );
-        const calque_teleporteVert = carteDuNiveau.createLayer(
-          "tpvert",
-          tileset
-        );
-        const calque_teleporteRouge = carteDuNiveau.createLayer(
-          "tprouge",
-          tileset
-        );
-        const calque_teleporteBigViolet = carteDuNiveau.createLayer(
-          "tpviolet",
-          tileset
-        );
-        const calque_teleporteBleuFonce = carteDuNiveau.createLayer(
-          "tpbf",
-          tileset
-        );
-        const calque_teleporteBleuClair = carteDuNiveau.createLayer(
-          "tpbc",
-          tileset
-        );
-        const calque_teleporteRose = carteDuNiveau.createLayer(
-          "tpr",
-          tileset
-        );
-        const calque_teleporteViolet = carteDuNiveau.createLayer(
-          "tpv",
-          tileset
-        );
+
         const calque_premierPlan = carteDuNiveau.createLayer(
           "premPlan",
           tileset
@@ -169,50 +150,74 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       if(cursors.down.isDown){
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1520){
-          player.body.position.x = 1439
-          player.body.position.y = 1488
+          player.body.position.x = 1471
+          player.body.position.y = 1468
           console.log("BLEUAller")
         }
         else if((player.body.x >1461 && player.body.x <1485)&&  player.body.y == 1488){
-          player.body.position.x = 159
-          player.body.position.y = 1520
+          player.body.position.x = 190
+          player.body.position.y = 1500
           console.log("BLEUretour")
         }
 
 
         //TP petit violet aller/retour
         else if(player.body.x ==1024 && player.body.y == 1392){
-          player.body.position.x = 95
-          player.body.position.y = 80
+          player.body.position.x = 62
+          player.body.position.y = 60
           console.log("violetaller")
         }
         else if((player.body.x >50 && player.body.x < 74) && player.body.y == 80 ){
-          player.body.position.x = 1055
-          player.body.position.y = 1392
+          player.body.position.x = 1024
+          player.body.position.y = 1372
           console.log("violetretour")
         }
 
         //TP bleu ciel aller/retour
-        else if(player.body.x >885 && player.body.x <909){
-          player.body.position.x = 1407
-          player.body.position.y = 1360
+        else if((player.body.x >885 && player.body.x <909) && player.body.y == 1040){
+          player.body.position.x = 1374
+          player.body.position.y = 1340
           console.log("bleuciel")
         }
-        else if(player.body.x >1362 && player.body.x <1389){
-          player.body.position.x = 928
-          player.body.position.y = 1040
+        else if((player.body.x >1362 && player.body.x <1389) && player.body.y == 1360){
+          player.body.position.x = 896
+          player.body.position.y = 1020
+          console.log("bleuretour")
+        }
+
+        //TP bleu foncer aller/retour
+        else if((player.body.x >117 && player.body.x <138) && player.body.y == 432){
+          player.body.position.x = 1280
+          player.body.position.y = 60
+          console.log("bleuciel")
+        }
+        else if((player.body.x >1269 && player.body.x <1290) && player.body.y == 79.99999999999999 ){
+          player.body.position.x = 128
+          player.body.position.y = 412
+          console.log("bleuretour")
+        }
+
+        //TP bleu rose aller/retour
+        else if((player.body.x >53 && player.body.x <75) && player.body.y == 432){
+          player.body.position.x = 416
+          player.body.position.y = 668
+          console.log("bleuciel")
+        }
+        else if((player.body.x >406 && player.body.x <427) && player.body.y == 688){
+          player.body.position.x = 63
+          player.body.position.y = 412
           console.log("bleuretour")
         }
 
         //TP vert aller/retour
         else if((player.body.x >273 && player.body.x <303) && player.body.y == 1520 ){
-          player.body.position.x = 126
-          player.body.position.y = 1328
+          player.body.position.x = 96
+          player.body.position.y = 1308
           console.log("VERTaller")
         }
         else if((player.body.x >83 && player.body.x <107) && player.body.y == 1328 ){
-          player.body.position.x = 319
-          player.body.position.y = 1520
+          player.body.position.x = 288
+          player.body.position.y = 1500
           console.log("VERTretour")
         }
 
@@ -224,9 +229,21 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         }
         else if((player.body.x >997 && player.body.x <1018) && player.body.y == 528 ){
           player.body.position.x = 383
-          player.body.position.y = 1459
+          player.body.position.y = 1500
           console.log("VERTretour")
         }
+         //TP violet aller/retour
+         else if((player.body.x >628 && player.body.x <681) && player.body.y == 1488 ){
+          player.body.position.x = 687
+          player.body.position.y = 91
+          console.log("VERTaller")
+        }
+        else if((player.body.x >673 && player.body.x <702) && player.body.y == 111.99999999999999 ){
+          player.body.position.x = 654
+          player.body.position.y = 1468
+          console.log("VERTretour")
+        }
+      
       }
     }
 </script>
