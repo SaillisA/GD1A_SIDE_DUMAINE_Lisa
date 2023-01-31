@@ -81,7 +81,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
-
+        calque_piques.setCollisionProperty({ estPiques: true});
 
         //joueur :
         player = this.physics.add.sprite(50, 1520, 'perso');
@@ -110,11 +110,13 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           "lave",
           tileset
         );
-
+          
         const calque_premierPlan = carteDuNiveau.createLayer(
           "premPlan",
           tileset
         );
+
+        calque_lave.setCollisionProperty({ estLave: true});
 
         //collision jouer et calques plateformes
         this.physics.add.collider(player, calque_plateformes); 
