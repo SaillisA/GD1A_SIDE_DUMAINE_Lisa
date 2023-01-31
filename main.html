@@ -82,7 +82,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
 
-        calque_piques.setCollisionByProperty({ estPiques: true});
+        calque_piques.setCollisionByProperty({ estSolide: true});
         
 
         //joueur :
@@ -180,7 +180,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
 
         //TP petit violet aller/retour
-        else if(player.body.x ==1024 && player.body.y == 1408){
+        else if(player.body.x ==1024 && player.body.y == 140){
           player.body.position.x = 62
           player.body.position.y = 76
           console.log("violetaller")
