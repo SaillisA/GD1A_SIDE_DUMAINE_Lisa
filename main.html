@@ -81,7 +81,9 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
-        calque_piques.setCollisionProperty({ estPiques: true});
+
+        calque_piques.setCollisionByProperty({ estPiques: true});
+        
 
         //joueur :
         player = this.physics.add.sprite(50, 1520, 'perso');
@@ -116,10 +118,15 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           tileset
         );
 
-        calque_lave.setCollisionProperty({ estLave: true});
+        calque_lave.setCollisionByProperty({ estLave: true});
 
         //collision jouer et calques plateformes
         this.physics.add.collider(player, calque_plateformes); 
+
+        this.physics.add.collider(player, calque_piques, death,null,this)
+
+        this.physics.add.collider(player, calque_lave, death,null,this)
+        
 
         // redimentionnement du monde avec les dimensions calculées via tiled
         this.physics.world.setBounds(0, 0, 1600, 1600);
@@ -130,6 +137,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.cameras.main.setZoom(3);
 
     }
+   
+
     function update(){
       if (cursors.left.isDown){ //si la touche gauche est appuyée
           player.setVelocityX(-160); //alors vitesse négative en X
@@ -247,7 +256,13 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         }
       
       }
+      
     }
+    function death(){
+        this.physics.pause();
+        player.setTint(0xff0000);
+        player.anims.play('turn');
+      }
 </script>
 </body>
 </html>
