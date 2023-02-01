@@ -87,7 +87,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         //joueur :
         player = this.physics.add.sprite(50, 1520, 'perso');
-        player.setBounce(0.2);
+        //player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
             key: 'left',
@@ -168,25 +168,25 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       if(cursors.down.isDown){
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1536){
-          player.body.position.x = 1471
+          player.body.position.x = 1476
           player.body.position.y = 1484
           console.log("BLEUAller")
         }
         else if((player.body.x >1461 && player.body.x <1485)&&  player.body.y == 1504){
-          player.body.position.x = 190
+          player.body.position.x = 196
           player.body.position.y = 1516
           console.log("BLEUretour")
         }
 
 
         //TP petit violet aller/retour
-        else if(player.body.x ==1024 && player.body.y == 140){
-          player.body.position.x = 62
+        else if((player.body.x >= 1024 && player.body.x < 1037) && player.body.y == 1408){
+          player.body.position.x = 70
           player.body.position.y = 76
           console.log("violetaller")
         }
         else if((player.body.x >50 && player.body.x < 74) && player.body.y == 96 ){
-          player.body.position.x = 1024
+          player.body.position.x = 1029
           player.body.position.y = 1388
           console.log("violetretour")
         }
@@ -205,58 +205,59 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         //TP bleu foncer aller/retour
         else if((player.body.x >117 && player.body.x <138) && player.body.y == 448){
-          player.body.position.x = 1280
+          player.body.position.x = 1285
           player.body.position.y = 76
           console.log("bleuciel")
         }
-        else if((player.body.x >1269 && player.body.x <1290) && player.body.y == 95.99999999999999 ){
-          player.body.position.x = 128
+        else if((player.body.x >1269 && player.body.x <1290) && player.body.y == 96 ){
+          player.body.position.x = 134
           player.body.position.y = 428
           console.log("bleuretour")
         }
 
         //TP bleu rose aller/retour
         else if((player.body.x >53 && player.body.x <75) && player.body.y == 448){
-          player.body.position.x = 416
+          player.body.position.x = 421
           player.body.position.y = 674
           console.log("bleuciel")
         }
         else if((player.body.x >406 && player.body.x <427) && player.body.y == 704){
-          player.body.position.x = 63
+          player.body.position.x = 70
           player.body.position.y = 428
           console.log("bleuretour")
         }
 
         //TP vert aller/retour
         else if((player.body.x >273 && player.body.x <303) && player.body.y == 1536 ){
-          player.body.position.x = 96
+          player.body.position.x = 101
           player.body.position.y = 1324
           console.log("VERTaller")
         }
         else if((player.body.x >83 && player.body.x <107) && player.body.y == 1344 ){
-          player.body.position.x = 288
+          player.body.position.x = 292
           player.body.position.y = 1516
           console.log("VERTretour")
         }
 
          //TP rouge aller/retour
         else if((player.body.x >372 && player.body.x <393) && player.body.y == 1536 ){
-          player.body.position.x = 1007
-          player.body.position.y = 488
+          player.body.position.x = 1012
+          player.body.position.y = 522
           console.log("VERTaller")
         }
         else if((player.body.x >997 && player.body.x <1018) && player.body.y == 544 ){
-          player.body.position.x = 383
+          player.body.position.x = 389
           player.body.position.y = 1516
           console.log("VERTretour")
         }
+
          //TP violet aller/retour
          else if((player.body.x >628 && player.body.x <681) && player.body.y == 1504 ){
-          player.body.position.x = 687
+          player.body.position.x = 692
           player.body.position.y = 107
           console.log("VERTaller")
         }
-        else if((player.body.x >673 && player.body.x <702) && player.body.y == 127.99999999999999 ){
+        else if((player.body.x >673 && player.body.x <710) && player.body.y == 128 ){
           player.body.position.x = 654
           player.body.position.y = 1484
           console.log("VERTretour")
