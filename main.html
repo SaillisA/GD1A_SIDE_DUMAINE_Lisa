@@ -31,6 +31,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         this.load.image("cleTexture","assets/cle.png");
         this.load.image("potionTexture","assets/potion.png");
+        this.load.image("gateTexture","assets/gate.png");
     }
     var platforms;
     var player;
@@ -134,7 +135,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         this.physics.add.overlap(player,clecle,collectClecle,null,this);
 
-
+        //creation des potions :
         popo = this.physics.add.group({
           immovable : true ,
           allowGravity : false
@@ -146,6 +147,17 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         });
         this.physics.add.overlap(player,popo,collectPopo,null,this);
         
+        //creation de la gate :
+        gaga = this.physics.add.group({
+          immovable : true,
+          allowGravity : false
+        });
+
+        calque_gate = carteDuNiveau.getObjectLayer("gate");
+        calque_gate.objects.forEach(calque_gate =>{
+          const encoreInutile = gaga.create(calque_gate.x + 16, calque_gate.y +16, "gateTexture");
+        });
+        this.physics.add.collider(player,gaga,openGate,null,this);
 
         calque_lave.setCollisionByProperty({ estLave: true});
 
@@ -201,12 +213,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       if(cursors.down.isDown){
 
         //pour accéder à la fin du niveau (portail final)
-        if((player.body.x > 532 && player.body.x < 554)&& player.body.y == 1536){
-          if(nbrClecle == 3){
-            openGate
-            console.log("portail ouvert")
-          }
-        }
+        //if((player.body.x > 532 && player.body.x < 554)&& player.body.y == 1536){}
 
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1536){
@@ -314,7 +321,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         player.anims.play('turn');
     }
 
-    function collectClecle(player,clecle,){
+    function collectClecle(player,clecle){
       clecle.disableBody(true,true);
       nbrClecle += 1;
     }
@@ -322,8 +329,12 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function collectPopo(player,popo){
       popo.disableBody(true,true);
     }
-    function openGate(player,gate){
-      gaga.disableBody(true,true);
+    function openGate(player,gaga){
+      if(nbrClecle == 3){
+            console.log("portail ouvert")
+            gaga.disableBody(true,true);
+          }
+      
     }
 </script>
 </body>
