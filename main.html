@@ -15,7 +15,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             default: 'arcade',
             arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }},
         height: 600,
         scene: {preload: preload, create: create, update: update }
@@ -34,6 +34,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     }
     var platforms;
     var player;
+    var nbrClecle = 0;
 
     function create(){
         // chargement de la carte
@@ -128,20 +129,25 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         });
         calque_cle = carteDuNiveau.getObjectLayer("cle");
         calque_cle.objects.forEach(calque_cle => {
-          const inutile = clecle.create(calque_cle.x + 16,calque_cle.y + 16,"cleTexture")//.setAllowGravity(false);
+          const inutile = clecle.create(calque_cle.x + 16,calque_cle.y + 16,"cleTexture");
         });
 
         this.physics.add.overlap(player,clecle,collectClecle,null,this);
-        calque_lave.setCollisionByProperty({ estLave: true});
+
 
         popo = this.physics.add.group({
           immovable : true ,
           allowGravity : false
         });
-        claque
 
+        calque_potion = carteDuNiveau.getObjectLayer("potion");
+        calque_potion.objects.forEach(calque_potion => {
+          const tjInutile = popo.create(calque_potion.x + 16,calque_potion.y + 16,"potionTexture");
+        });
+        this.physics.add.overlap(player,popo,collectPopo,null,this);
+        
 
-
+        calque_lave.setCollisionByProperty({ estLave: true});
 
         //collision jouer et calques plateformes
         this.physics.add.collider(player, calque_plateformes); 
@@ -193,6 +199,15 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
 
       if(cursors.down.isDown){
+
+        //pour accéder à la fin du niveau (portail final)
+        if((player.body.x > 532 && player.body.x < 554)&& player.body.y == 1536){
+          if(nbrClecle == 3){
+            openGate
+            console.log("portail ouvert")
+          }
+        }
+
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1536){
           player.body.position.x = 1476
@@ -297,11 +312,18 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
-      }
-    function collectClecle(player,clecle){
+    }
+
+    function collectClecle(player,clecle,){
       clecle.disableBody(true,true);
-      //score += 10;
-      //scoreText.setText('Score' + score);
+      nbrClecle += 1;
+    }
+
+    function collectPopo(player,popo){
+      popo.disableBody(true,true);
+    }
+    function openGate(player,gate){
+      gaga.disableBody(true,true);
     }
 </script>
 </body>
