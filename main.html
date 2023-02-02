@@ -15,7 +15,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             default: 'arcade',
             arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }},
         height: 600,
         scene: {preload: preload, create: create, update: update }
@@ -32,11 +32,13 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("cleTexture","assets/cle.png");
         this.load.image("potionTexture","assets/potion.png");
         this.load.image("gateTexture","assets/gate.png");
+        this.load.image("pompeTexture","assets/pompe.png");
     }
     var platforms;
     var player;
     var nbrClecle = 0;
-
+    var nbrPompom = 0;
+    
     function create(){
         // chargement de la carte
         const carteDuNiveau = this.add.tilemap("carte");
@@ -158,6 +160,21 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           const encoreInutile = gaga.create(calque_gate.x + 16, calque_gate.y +16, "gateTexture");
         });
         this.physics.add.collider(player,gaga,openGate,null,this);
+
+        //creation des pompes :
+        pompom = this.physics.add.group({
+          immovable : true,
+          allowGravity : false
+        })
+
+        calque_pompe = carteDuNiveau.getObjectLayer("pompe");
+        calque_pompe.objects.forEach(calque_pompe =>{
+          const encoreTjInutile = pompom.create(calque_pompe.x +16,calque_pompe.y + 16, "pompeTexture");
+        });
+        this.physics.add.collider(player,pompom,actionnerPompe,null,this);
+
+
+
 
         calque_lave.setCollisionByProperty({ estLave: true});
 
@@ -328,14 +345,39 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
     function collectPopo(player,popo){
       popo.disableBody(true,true);
-    }
+    };
     function openGate(player,gaga){
       if(nbrClecle == 3){
             console.log("portail ouvert")
             gaga.disableBody(true,true);
           }
-      
-    }
+    };
+    function actionnerPompe(player,pompom){
+      if(nbr < 3){
+        nbrPompom +=1;
+      };
+      if(nbrPompom == 1){
+        fume1;
+        console.log("fumée 1 désactivé");
+      };
+      if(nbrPompom == 2){
+        fume2;
+        console.log("fumée 2 désactivé");
+      };
+      if(nbrPompom == 3){
+        fume3;
+        console.log("fumée 3 désactivé");
+      };
+    };
+    function fume1(){
+
+    };
+    function fume2(){
+
+    };
+    function fume3(){
+
+    };
 </script>
 </body>
 </html>
