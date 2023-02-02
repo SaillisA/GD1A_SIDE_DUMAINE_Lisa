@@ -556,7 +556,7 @@
   <object id="46" x="384" y="544" width="32" height="32"/>
   <object id="49" x="544" y="608.091" width="32" height="31.9091"/>
  </objectgroup>
- <objectgroup id="42" name="tapisDroite">
+ <objectgroup id="42" name="tapisDroite" visible="0">
   <object id="31" x="480.063" y="480.063" width="31.9375" height="31.9375"/>
   <object id="34" x="608" y="640.091" width="32" height="31.9091"/>
   <object id="35" x="864" y="576" width="32" height="32"/>

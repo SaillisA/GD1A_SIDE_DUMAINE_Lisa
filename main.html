@@ -29,6 +29,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("Phaser_tuilesdejeu","assets/tileset_pour_de_vrai.png");
         this.load.tilemapTiledJSON("carte","assets/premier_niveau.json");
 
+        //images et etc pour les objets
         this.load.image("cleTexture","assets/cle.png");
         this.load.image("potionTexture","assets/potion.png");
         this.load.image("gateTexture","assets/gate.png");
@@ -36,6 +37,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("tapisDroiteTexture","assets/blocLaveDroite.png");
         this.load.image("tapisGaucheTexture","assets/blocLaveGauche.png");
     }
+
+    //le club des variables
     var platforms;
     var player;
     var nbrClecle = 0;
@@ -47,47 +50,19 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         const carteDuNiveau = this.add.tilemap("carte");
 
         // chargement du jeu de tuiles
-        const tileset = carteDuNiveau.addTilesetImage(
-          "tileset_pour_de_vrai",
-          "Phaser_tuilesdejeu"
-        );  
+        const tileset = carteDuNiveau.addTilesetImage("tileset_pour_de_vrai","Phaser_tuilesdejeu");  
 
         //les caaaaalques (oskour)
+        const calque_terre = carteDuNiveau.createLayer("terre",tileset);
+        const calque_fond = carteDuNiveau.createLayer("fond",tileset);
+        const calque_bordsFenetre = carteDuNiveau.createLayer("bordsFenetre",tileset);
+        const calque_fumeRouge = carteDuNiveau.createLayer("fumeRouge",tileset);
+        const calque_piques = carteDuNiveau.createLayer("piques",tileset);
+        const calque_plateformes = carteDuNiveau.createLayer("murSol",tileset);
+        const calque_base = carteDuNiveau.createLayer("base",tileset);
+        const calque_effet = carteDuNiveau.createLayer("effet",tileset);
 
-        const calque_terre = carteDuNiveau.createLayer(
-          "terre",
-          tileset
-        );
-        const calque_fond = carteDuNiveau.createLayer(
-          "fond",
-          tileset
-        );
-        const calque_bordsFenetre = carteDuNiveau.createLayer(
-          "bordsFenetre",
-          tileset
-        );
-        const calque_fumeRouge = carteDuNiveau.createLayer(
-          "fumeRouge",
-          tileset
-        );
-        const calque_piques = carteDuNiveau.createLayer(
-          "piques",
-          tileset
-        );
 
-        const calque_plateformes = carteDuNiveau.createLayer(
-          "murSol",
-          tileset
-        );
-
-        const calque_base = carteDuNiveau.createLayer(
-          "base",
-          tileset
-        );
-        const calque_effet = carteDuNiveau.createLayer(
-          "effet",
-          tileset
-        );
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
@@ -118,70 +93,47 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         });
         cursors = this.input.keyboard.createCursorKeys();
         
-        const calque_lave = carteDuNiveau.createLayer(
-          "lave",
-          tileset
-        );
-          
-        const calque_premierPlan = carteDuNiveau.createLayer(
-          "premPlan",
-          tileset
-        );
+        const calque_lave = carteDuNiveau.createLayer("lave",tileset);         
+        const calque_premierPlan = carteDuNiveau.createLayer("premPlan",tileset);
 
         //creation des cles :
-        clecle = this.physics.add.group({
-          immovable : true ,
-          allowGravity : false
-        });
+        clecle = this.physics.add.group({immovable : true ,allowGravity : false});
         calque_cle = carteDuNiveau.getObjectLayer("cle");
         calque_cle.objects.forEach(calque_cle => {
           const inutile = clecle.create(calque_cle.x + 16,calque_cle.y + 16,"cleTexture");
         });
-
         this.physics.add.overlap(player,clecle,collectClecle,null,this);
 
-        //creation des potions :
-        popo = this.physics.add.group({
-          immovable : true ,
-          allowGravity : false
-        });
 
+        //creation des potions :
+        popo = this.physics.add.group({immovable : true ,allowGravity : false});
         calque_potion = carteDuNiveau.getObjectLayer("potion");
         calque_potion.objects.forEach(calque_potion => {
           const tjInutile = popo.create(calque_potion.x + 16,calque_potion.y + 16,"potionTexture");
         });
         this.physics.add.overlap(player,popo,collectPopo,null,this);
         
-        //creation de la gate :
-        gaga = this.physics.add.group({
-          immovable : true,
-          allowGravity : false
-        });
 
+        //creation de la gate :
+        gaga = this.physics.add.group({ immovable : true,allowGravity : false});
         calque_gate = carteDuNiveau.getObjectLayer("gate");
         calque_gate.objects.forEach(calque_gate =>{
           const encoreInutile = gaga.create(calque_gate.x + 16, calque_gate.y +16, "gateTexture");
         });
         this.physics.add.collider(player,gaga,openGate,null,this);
 
-        //creation des pompes :
-        pompom = this.physics.add.group({
-          immovable : true,
-          allowGravity : false
-        })
 
+        //creation des pompes :
+        pompom = this.physics.add.group({immovable : true,allowGravity : false});
         calque_pompe = carteDuNiveau.getObjectLayer("pompe");
         calque_pompe.objects.forEach(calque_pompe =>{
           const encoreTjInutile = pompom.create(calque_pompe.x +16,calque_pompe.y + 16, "pompeTexture");
         });
         this.physics.add.collider(player,pompom,actionnerPompe,null,this);
 
-        //creation bloc lave droite :
-        tataD = this.physics.add.group({
-          immovable : true,
-          allowGravity : false
-        })
 
+        //creation tapis roulant droite :
+        tataD = this.physics.add.group({immovable : true,allowGravity : false});
         calque_tapisDroite = carteDuNiveau.getObjectLayer("tapisDroite");
         calque_tapisDroite.objects.forEach(calque_tapisDroite =>{
           const encoreTjPlusInutile = tataD.create(calque_tapisDroite.x +16,calque_tapisDroite.y + 16, "tapisDroiteTexture");
@@ -189,12 +141,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.add.collider(player,tataD,defilerDroite,null,this);
 
 
-        //creation bloc lave gauche :
-        tataG = this.physics.add.group({
-          immovable : true,
-          allowGravity : false
-        })
-
+        //creation tapis roulant gauche :
+        tataG = this.physics.add.group({immovable : true,allowGravity : false});
         calque_tapisGauche = carteDuNiveau.getObjectLayer("tapisGauche");
         calque_tapisGauche.objects.forEach(calque_tapisGauche  =>{
           const encoreTjPlusPlusInutile = tataG.create(calque_tapisGauche.x +16,calque_tapisGauche .y + 16, "tapisGaucheTexture");
@@ -205,11 +153,9 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         calque_lave.setCollisionByProperty({ estLave: true});
 
-        //collision jouer et calques plateformes
+        //collision jouer et calques plateformes, piques et lave
         this.physics.add.collider(player, calque_plateformes); 
-
         this.physics.add.collider(player, calque_piques, death,null,this);
-
         this.physics.add.collider(player, calque_lave, death,null,this);
 
 
@@ -245,25 +191,25 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         if(solEtat==1){      //quand sur tapis roulant droite
           player.setVelocityX(100);
           solEtat = 0;
-          console.log("roule à droite")
+          console.log("roule à droite");
         };
         if(solEtat==2){      //quand sur tapis roulant gauche
           player.setVelocityX(-100);
           solEtat = 0;
-          console.log("roule à gauche")
+          console.log("roule à gauche");
         }
     }
       if (cursors.up.isDown && player.body.blocked.down) {
           //si touche haut appuyée ET que le perso touche le sol
           player.setVelocityY(-200); //alors vitesse verticale négative
           //(on saute)
-      }
+      };
       if(cursors.up.isDown && player.body.blocked.right){
         player.setVelocityY(-200);
-      }
+      };
       if(cursors.up.isDown && player.body.blocked.left){
         player.setVelocityY(-200);
-      }
+      };
 
 
       if(cursors.down.isDown){
@@ -273,123 +219,123 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1536){
-          player.body.position.x = 1476
-          player.body.position.y = 1484
-          console.log("BLEUAller")
-        }
-        else if((player.body.x >1461 && player.body.x <1485)&&  player.body.y == 1504){
-          player.body.position.x = 196
-          player.body.position.y = 1516
-          console.log("BLEUretour")
-        }
+          player.body.position.x = 1476;
+          player.body.position.y = 1484;
+          console.log("BLEUAller");
+        };
+        if((player.body.x >1461 && player.body.x <1485)&&  player.body.y == 1504){
+          player.body.position.x = 196;
+          player.body.position.y = 1516;
+          console.log("BLEUretour");
+        };
 
 
         //TP petit violet aller/retour
-        else if((player.body.x >= 1024 && player.body.x < 1037) && player.body.y == 1408){
+        if((player.body.x >= 1024 && player.body.x < 1037) && player.body.y == 1408){
           player.body.position.x = 70
           player.body.position.y = 76
           console.log("violetaller")
-        }
-        else if((player.body.x >50 && player.body.x < 74) && player.body.y == 96 ){
+        };
+        if((player.body.x >50 && player.body.x < 74) && player.body.y == 96 ){
           player.body.position.x = 1029
           player.body.position.y = 1388
           console.log("violetretour")
-        }
+        };
 
         //TP bleu ciel aller/retour
-        else if((player.body.x >885 && player.body.x <909) && player.body.y == 1056){
+        if((player.body.x >885 && player.body.x <909) && player.body.y == 1056){
           player.body.position.x = 1381
           player.body.position.y = 1356
           console.log("bleuciel")
-        }
-        else if((player.body.x >1362 && player.body.x <1389) && player.body.y == 1376){
+        };
+        if((player.body.x >1362 && player.body.x <1389) && player.body.y == 1376){
           player.body.position.x = 901
           player.body.position.y = 1036
           console.log("bleuretour")
-        }
+        };
 
         //TP bleu foncer aller/retour
-        else if((player.body.x >117 && player.body.x <138) && player.body.y == 448){
+        if((player.body.x >117 && player.body.x <138) && player.body.y == 448){
           player.body.position.x = 1285
           player.body.position.y = 76
           console.log("bleuciel")
-        }
-        else if((player.body.x >1269 && player.body.x <1290) && player.body.y == 96 ){
+        };
+        if((player.body.x >1269 && player.body.x <1290) && player.body.y == 96 ){
           player.body.position.x = 134
           player.body.position.y = 428
           console.log("bleuretour")
-        }
+        };
 
         //TP bleu rose aller/retour
-        else if((player.body.x >53 && player.body.x <75) && player.body.y == 448){
+        if((player.body.x >53 && player.body.x <75) && player.body.y == 448){
           player.body.position.x = 421
           player.body.position.y = 674
           console.log("bleuciel")
-        }
-        else if((player.body.x >406 && player.body.x <427) && player.body.y == 704){
+        };
+        if((player.body.x >406 && player.body.x <427) && player.body.y == 704){
           player.body.position.x = 70
           player.body.position.y = 428
           console.log("bleuretour")
-        }
+        };
 
         //TP vert aller/retour
-        else if((player.body.x >273 && player.body.x <303) && player.body.y == 1536 ){
+        if((player.body.x >273 && player.body.x <303) && player.body.y == 1536 ){
           player.body.position.x = 101
           player.body.position.y = 1324
           console.log("VERTaller")
-        }
-        else if((player.body.x >83 && player.body.x <107) && player.body.y == 1344 ){
+        };
+        if((player.body.x >83 && player.body.x <107) && player.body.y == 1344 ){
           player.body.position.x = 292
           player.body.position.y = 1516
           console.log("VERTretour")
-        }
+        };
 
          //TP rouge aller/retour
-        else if((player.body.x >372 && player.body.x <393) && player.body.y == 1536 ){
+        if((player.body.x >372 && player.body.x <393) && player.body.y == 1536 ){
           player.body.position.x = 1012
           player.body.position.y = 522
           console.log("VERTaller")
-        }
-        else if((player.body.x >997 && player.body.x <1018) && player.body.y == 544 ){
+        };
+        if((player.body.x >997 && player.body.x <1018) && player.body.y == 544 ){
           player.body.position.x = 389
           player.body.position.y = 1516
           console.log("VERTretour")
-        }
+        };
 
          //TP violet aller/retour
-         else if((player.body.x >628 && player.body.x <681) && player.body.y == 1504 ){
+        if((player.body.x >628 && player.body.x <681) && player.body.y == 1504 ){
           player.body.position.x = 692
           player.body.position.y = 107
           console.log("VERTaller")
-        }
-        else if((player.body.x >673 && player.body.x <710) && player.body.y == 128 ){
+        };
+        if((player.body.x >673 && player.body.x <710) && player.body.y == 128 ){
           player.body.position.x = 654
           player.body.position.y = 1484
           console.log("VERTretour")
-        }
+        };
       
-      }
+      };
       
-    }
+    };
     function death(){
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
-    }
+    };
 
     function collectClecle(player,clecle){
       clecle.disableBody(true,true);
       nbrClecle += 1;
-    }
+    };
 
     function collectPopo(player,popo){
       popo.disableBody(true,true);
     };
     function openGate(player,gaga){
       if(nbrClecle == 3){
-            console.log("portail ouvert")
+            console.log("portail ouvert");
             gaga.disableBody(true,true);
-          }
+          };
     };
     function actionnerPompe(player,pompom){
       if(nbr < 3){
