@@ -11,7 +11,7 @@ o Ennemis
     ● rebond sur les parois rocheuses
     o bouton d’accélération de la nage
     o freinage d’urgence (exemple : jetpack) dans l’espace
-o Altération déplacement, selon thème :
+● Altération déplacement, selon thème :
     o inertie sur la glace & ralentissement sur la neige
     o déplacement toutes directions (stick gauche manette) & résistance de l’eau
     o gravité altérée, inertie du déplacement
