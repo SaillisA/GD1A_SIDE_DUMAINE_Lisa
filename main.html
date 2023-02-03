@@ -92,8 +92,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         
 
         //joueur :
-        player = this.physics.add.sprite(50, 1520, 'perso');
-        //player = this.physics.add.sprite(930, 1440, 'perso');
+        //player = this.physics.add.sprite(50, 1520, 'perso');
+        player = this.physics.add.sprite(930, 1440, 'perso');
         //player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
@@ -283,11 +283,11 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.cameras.main.setZoom(3);
 
         barreDeVie0 = this.add.sprite(320,220,"bdv4pv").setScrollFactor(0).setScale(0.5);
-        barreDeVie1 = this.add.sprite(3,220,"bdv3pv").setScrollFactor(0).setScale(0.5);
-        barreDeVie2 = this.add.sprite(320,220,"bdv2pv").setScrollFactor(0).setScale(0.5);
-        barreDeVie3 = this.add.sprite(320,220,"bdv1pv").setScrollFactor(0).setScale(0.5);
-        barreDeVie4 = this.add.sprite(320,220,"bdv0pv").setScrollFactor(0).setScale(0.5);
-    }
+        barreDeVie1 = this.add.sprite(3,220,"bdv3pv").setScrollFactor(0).setScale(0.5).setVisible(false);
+        barreDeVie2 = this.add.sprite(320,220,"bdv2pv").setScrollFactor(0).setScale(0.5).setVisible(false);
+        barreDeVie3 = this.add.sprite(320,220,"bdv1pv").setScrollFactor(0).setScale(0.5).setVisible(false);
+        barreDeVie4 = this.add.sprite(320,220,"bdv0pv").setScrollFactor(0).setScale(0.5).setVisible(false);
+      };
    
 
     function update(){
@@ -468,6 +468,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         player.anims.play('turn');
         console.log("joueur mort par nuage d'acide")
       }
+      afficherPv()
     };
     function disparitionMomo1(momo1){
       if(momo1Spawn == true){
@@ -511,13 +512,35 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       player.anims.play('turn');
     }
     function afficherPv(){
-      if(pvJoueur == 4){
-        this.barreDeVie0.visible = true;
-        this.barreDeVie1.visible = false;
+      if(pvJoueur == 3){
+        this.barreDeVie0.visible = false;
+        this.barreDeVie1.visible = true;
         this.barreDeVie2.visible = false;
         this.barreDeVie3.visible = false;
         this.barreDeVie4.visible = false;
-    }
+      };
+      if(pvJoueur == 2){
+        this.barreDeVie0.visible = false;
+        this.barreDeVie1.visible = false;
+        this.barreDeVie2.visible = true;
+        this.barreDeVie3.visible = false;
+        this.barreDeVie4.visible = false;
+      };
+      if(pvJoueur == 1){
+        this.barreDeVie0.visible = false;
+        this.barreDeVie1.visible = false;
+        this.barreDeVie2.visible = false;
+        this.barreDeVie3.visible = true;
+        this.barreDeVie4.visible = false;
+      };
+      if(pvJoueur == 0){
+        this.barreDeVie0.visible = false;
+        this.barreDeVie1.visible = false;
+        this.barreDeVie2.visible = false;
+        this.barreDeVie3.visible = false;
+        this.barreDeVie4.visible = true;
+      };
+    };
 </script>
 </body>
 </html>
