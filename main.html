@@ -93,7 +93,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 
         //joueur :
         //player = this.physics.add.sprite(50, 1520, 'perso');
-        player = this.physics.add.sprite(930, 1440, 'perso');
+        player = this.physics.add.sprite(775, 1216, 'perso');
         //player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
@@ -283,7 +283,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.cameras.main.setZoom(3);
 
         barreDeVie0 = this.add.sprite(320,220,"bdv4pv").setScrollFactor(0).setScale(0.5);
-        barreDeVie1 = this.add.sprite(3,220,"bdv3pv").setScrollFactor(0).setScale(0.5).setVisible(false);
+        barreDeVie1 = this.add.sprite(320,220,"bdv3pv").setScrollFactor(0).setScale(0.5).setVisible(false);
         barreDeVie2 = this.add.sprite(320,220,"bdv2pv").setScrollFactor(0).setScale(0.5).setVisible(false);
         barreDeVie3 = this.add.sprite(320,220,"bdv1pv").setScrollFactor(0).setScale(0.5).setVisible(false);
         barreDeVie4 = this.add.sprite(320,220,"bdv0pv").setScrollFactor(0).setScale(0.5).setVisible(false);
@@ -469,6 +469,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         console.log("joueur mort par nuage d'acide")
       }
       afficherPv()
+      player.body.setVelocityY(-200);
     };
     function disparitionMomo1(momo1){
       if(momo1Spawn == true){
