@@ -15,7 +15,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             default: 'arcade',
             arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }},
         height: 600,
         scene: {preload: preload, create: create, update: update }
@@ -38,6 +38,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("tapisGaucheTexture","assets/blocLaveGauche.png");
         this.load.image("laveTexture","assets/laveVague.png");
         this.load.image("fumeTexture","assets/fume.png");
+        this.load.image("delimiTexture","assets/invisi.png")  //png transparent avec rien dessus pour avoir un object invisible
 
         //tentative d'utiliser un sprite pour l'animation de l'ennemis fumé TvT
         /*this.load.spritesheet("monstreTexture","assets/fumeSprite.png",
@@ -188,7 +189,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         dede1 = this.physics.add.group({immovable : true,allowGravity:false});
         calque_delimitFufu1 = carteDuNiveau.getObjectLayer("delimitFufu1");
         calque_delimitFufu1.objects.forEach(calque_delimitFufu1 => {
-          const encorelolUltraInutile = dede1.create(calque_delimitFufu1.x, calque_delimitFufu1.y, "");
+          const encorelolUltraInutile = dede1.create(calque_delimitFufu1.x, calque_delimitFufu1.y, "delimiTexture");
         });
         //création du monstre 1 
         momo1 = this.physics.add.group({immovable : true,allowGravity:false});
@@ -206,7 +207,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
          dede2 = this.physics.add.group({immovable : true,allowGravity:false});
         calque_delimitFufu2 = carteDuNiveau.getObjectLayer("delimitFufu2");
         calque_delimitFufu2.objects.forEach(calque_delimitFufu2 => {
-          const encorelolUltraInutile = dede2.create(calque_delimitFufu2.x, calque_delimitFufu2.y, "");
+          const encorelolUltraInutile = dede2.create(calque_delimitFufu2.x, calque_delimitFufu2.y, "delimiTexture");
         });
          //création du monstre 2
          momo2 = this.physics.add.group({immovable : true,allowGravity:false});
@@ -222,7 +223,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
          dede3 = this.physics.add.group({immovable : true,allowGravity:false});
         calque_delimitFufu3 = carteDuNiveau.getObjectLayer("delimitFufu3");
         calque_delimitFufu3.objects.forEach(calque_delimitFufu3 => {
-          const encorelolUltraInutile = dede3.create(calque_delimitFufu3.x, calque_delimitFufu3.y, "");
+          const encorelolUltraInutile = dede3.create(calque_delimitFufu3.x, calque_delimitFufu3.y, "delimiTexture");
         });
         //création du monstre 3 
         momo3 = this.physics.add.group({immovable : true,allowGravity:false});
