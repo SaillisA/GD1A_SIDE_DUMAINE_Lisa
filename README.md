@@ -18,4 +18,4 @@ oframes d’invulnérabilité
     ● Obstacles causant instantanément la fin du jeu (“mort” du personnage)
     ● Power-up débloquant une nouvelle capacité (au choix, à expliquer)
     ● Scrolling vertical & horizontal, parallaxe
-o Contrôle manette uvu
+    ● Contrôle manette uvu
