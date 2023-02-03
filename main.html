@@ -309,18 +309,16 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           player.setVelocityY(-200); //alors vitesse verticale négative
           //(on saute)
       };
-      if((cursors.up.isDown && player.body.blocked.right)/*&& wallJump == true*/){
+      if((cursors.up.isDown && player.body.blocked.right)&& wallJump == true){
         player.setVelocityY(-200);
       };
-      if((cursors.up.isDown && player.body.blocked.left) /*&& wallJump == true*/){
+      if((cursors.up.isDown && player.body.blocked.left)&& wallJump == true){
         player.setVelocityY(-200);
       };
 
 
       if(cursors.down.isDown){
 
-        //pour accéder à la fin du niveau (portail final)
-        //if((player.body.x > 532 && player.body.x < 554)&& player.body.y == 1536){}
 
         //TP lvl 1 Bleu aller/retour
         if((player.body.x >178 && player.body.x <207) && player.body.y == 1536){
