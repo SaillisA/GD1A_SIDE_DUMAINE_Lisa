@@ -53,7 +53,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     var ouvPompom2 = true;
     var ouvPompom3 = true;
     var solEtat = 0;    //pour savoir si il y a un tapis roulant: 0=non; 1=roule a droite; 2=roule a gauche:
-    var pvJoueur = 100;
+    var pvJoueur = 4;
+    var joueurEnVie = true;
     var wallJump = false;//pour débloquer le wall jump. Si true : il est débloqué. si false : pas débloqué
     var momo1Spawn = true;
     var momo2Spawn = true;
@@ -442,8 +443,14 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       //player.setVelocityX(-100)
     };
     function degats(){
-      pvJoueur= pvJoueur - 25;
-      console.log("perdu 25 pv");
+      pvJoueur= pvJoueur - 1;
+      console.log("perdu 1 pv");
+      if(pvJoueur<=0){
+        this.physics.pause();
+        player.setTint(0x7FFF00);
+        player.anims.play('turn');
+        console.log("joueur mort par nuage d'acide")
+      }
     };
     function disparitionMomo1(momo1){
       if(momo1Spawn == true){
