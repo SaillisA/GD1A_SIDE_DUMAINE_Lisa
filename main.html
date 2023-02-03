@@ -40,6 +40,12 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("fumeTexture","assets/fume.png");
         this.load.image("delimiTexture","assets/invisi.png");  //png transparent avec rien dessus pour avoir un object invisible
         this.load.image("powerWallTexture","assets/pouvoir.png");
+
+        this.load.image("bdv4pv","assets/bdv0.png");
+        this.load.image("bdv3pv","assets/bdv1.png");
+        this.load.image("bdv2pv","assets/bdv2.png");
+        this.load.image("bdv1pv","assets/bdv3.png");
+        this.load.image("bdv0pv","assets/bdv4.png");
         //tentative d'utiliser un sprite pour l'animation de l'ennemis fumé TvT
         /*this.load.spritesheet("monstreTexture","assets/fumeSprite.png",
           {frameWidth : 61, frameHeigh : 35});*/
@@ -276,6 +282,11 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.cameras.main.startFollow(player);
         this.cameras.main.setZoom(3);
 
+        barreDeVie0 = this.add.sprite(320,220,"bdv4pv").setScrollFactor(0).setScale(0.5);
+        barreDeVie1 = this.add.sprite(3,220,"bdv3pv").setScrollFactor(0).setScale(0.5);
+        barreDeVie2 = this.add.sprite(320,220,"bdv2pv").setScrollFactor(0).setScale(0.5);
+        barreDeVie3 = this.add.sprite(320,220,"bdv1pv").setScrollFactor(0).setScale(0.5);
+        barreDeVie4 = this.add.sprite(320,220,"bdv0pv").setScrollFactor(0).setScale(0.5);
     }
    
 
@@ -498,6 +509,14 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function gameWon(){
       this.physics.pause();
       player.anims.play('turn');
+    }
+    function afficherPv(){
+      if(pvJoueur == 4){
+        this.barreDeVie0.visible = true;
+        this.barreDeVie1.visible = false;
+        this.barreDeVie2.visible = false;
+        this.barreDeVie3.visible = false;
+        this.barreDeVie4.visible = false;
     }
 </script>
 </body>
