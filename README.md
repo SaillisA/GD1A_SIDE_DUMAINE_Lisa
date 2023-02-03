@@ -3,10 +3,10 @@ Jeu Side Scroller
 
 Cahier des charges :
 o Indicateur de vie (coeurs ou jauge) & frames d’invulnérabilité
-o Ennemis
-    ● ET faisant perdre de la vie
-    ● ET ayant un comportement déterminé
-    o ET que l’on peut faire disparaître
+    ● Ennemis
+        ● ET faisant perdre de la vie
+        ● ET ayant un comportement déterminé
+        ● ET que l’on peut faire disparaître
 
     ● Action déplacement, selon thème :
         ● rebond sur les parois rocheuses
