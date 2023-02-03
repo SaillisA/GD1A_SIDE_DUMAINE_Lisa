@@ -49,13 +49,13 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     var platforms;
     var player;
     var nbrClecle = 0;
-    var ouvPompom1 = true;  //pompe ouverte = true donc la fumée s'échappe, pompe fermée = false donc plus de fumée
+    var ouvPompom1 = true;    //pompe ouverte = true donc la fumée s'échappe, pompe fermée = false donc plus de fumée
     var ouvPompom2 = true;
     var ouvPompom3 = true;
-    var solEtat = 0;    //pour savoir si il y a un tapis roulant: 0=non; 1=roule a droite; 2=roule a gauche:
+    var solEtat = 0;          //pour savoir si il y a un tapis roulant: 0=non; 1=roule a droite; 2=roule a gauche:
     var pvJoueur = 4;
     var joueurEnVie = true;
-    var wallJump = false;//pour débloquer le wall jump. Si true : il est débloqué. si false : pas débloqué
+    var wallJump = false;     //pour débloquer le wall jump. Si true : il est débloqué. si false : pas débloqué
     var momo1Spawn = true;
     var momo2Spawn = true;
     var momo3Spawn = true;
@@ -252,9 +252,17 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         powpow = this.physics.add.group({immovable : true ,allowGravity : false});
         calque_powerWall = carteDuNiveau.getObjectLayer("powerWall");
         calque_powerWall.objects.forEach(calque_powerWall => {
-          const inutile = powpow.create(calque_powerWall.x,calque_powerWall.y ,"powerWallTexture");
+          const inutileBis = powpow.create(calque_powerWall.x,calque_powerWall.y ,"powerWallTexture");
         });
         this.physics.add.overlap(player,powpow,debloquePowpow,null,this);
+
+        //object pour fin du jeu
+        fifi = this.physics.add.group({immovable : true, allowGravity : false});
+        calque_finJeu = carteDuNiveau.getObjectLayer("finJeu");
+        calque_finJeu.objects.forEach(calque_finJeu => {
+          const inutileBisBis = fifi.create(calque_finJeu.x+16,calque_finJeu.y + 16,"")
+        });
+        this.physics.add.overlap(player,fifi,gameWon,null,this);
 
         //scoreText=this.add.text(player.body.x,player.body.y,'score: 0',{fontSize:'32px',fill:'#000'}).setScrollFactor(0);
 
@@ -488,6 +496,10 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function debloquePowpow(player,powpow){
       powpow.disableBody(true,true);
       wallJump = true;
+    }
+    function gameWon(){
+      this.physics.pause();
+      player.anims.play('turn');
     }
 </script>
 </body>

@@ -615,7 +615,7 @@
         {
          "draworder":"topdown",
          "id":43,
-         "name":"fin du jeu",
+         "name":"finJeu",
          "objects":[
                 {
                  "class":"",
@@ -1505,8 +1505,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":1455.63636363636,
-                 "y":239.818181818182
+                 "x":1455.64,
+                 "y":239.818
                 }],
          "opacity":1,
          "type":"objectgroup",
