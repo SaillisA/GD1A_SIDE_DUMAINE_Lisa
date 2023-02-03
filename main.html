@@ -41,6 +41,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("fumeTexture","assets/fume.png");
         this.load.image("delimiTexture","assets/invisi.png");  //png transparent avec rien dessus pour avoir un object invisible
         this.load.image("powerWallTexture","assets/pouvoir.png");
+        this.load.image("panneauTexture","assets/panneau.png")
 
         this.load.image("bdv4pv","assets/bdv0.png");
         this.load.image("bdv3pv","assets/bdv1.png");
@@ -67,6 +68,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     var momo2Spawn = true;
     var momo3Spawn = true;
     var controller = false;
+    var invincibilite = false; //pour le fait d'être invincible après avoir touché un monstre.
 
     function create(){
         // chargement de la carte
@@ -89,14 +91,10 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         // définition des tuiles de plateformes qui sont solides
         // utilisation de la propriété estSolide
         calque_plateformes.setCollisionByProperty({ estSolide: true }); 
-
         calque_piques.setCollisionByProperty({ estSolide: true});
-        
 
         //joueur :
-        //player = this.physics.add.sprite(50, 1520, 'perso');
-        player = this.physics.add.sprite(775, 1216, 'perso');
-        //player.setBounce(0.2);
+        player = this.physics.add.sprite(50, 1520, 'perso');
         player.setCollideWorldBounds(true);
         this.anims.create({
             key: 'left',
@@ -117,9 +115,11 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         });
         cursors = this.input.keyboard.createCursorKeys();
         
-        const calque_lave = carteDuNiveau.createLayer("lave",tileset);         
-        const calque_premierPlan = carteDuNiveau.createLayer("premPlan",tileset);
+        const calque_lave = carteDuNiveau.createLayer("lave",tileset); 
+        calque_lave.setCollisionByProperty({ estLave: true});
 
+        const calque_premierPlan = carteDuNiveau.createLayer("premPlan",tileset);
+        
         //creation des cles :
         clecle = this.physics.add.group({immovable : true ,allowGravity : false});
         calque_cle = carteDuNiveau.getObjectLayer("cle");
@@ -196,7 +196,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           const encoreTjPlusUltraInutile = lala.create(calque_laLave.x + 16, calque_laLave.y + 32, "laveTexture");
         });
         this.physics.add.overlap(player,lala,death,null,this);
-
+        
 
         //creation delimination invisible 1
         dede1 = this.physics.add.group({immovable : true,allowGravity:false});
@@ -215,7 +215,6 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         momo1.setVelocity(-50,0);
 
 
-
         //creation delimination invisible 2
          dede2 = this.physics.add.group({immovable : true,allowGravity:false});
         calque_delimitFufu2 = carteDuNiveau.getObjectLayer("delimitFufu2");
@@ -232,6 +231,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.add.overlap(player,momo2,degats,null,this);
         this.physics.add.collider(momo2,dede2,disparitionMomo2,null,this);
         
+
         //creation delimination invisible 3
          dede3 = this.physics.add.group({immovable : true,allowGravity:false});
         calque_delimitFufu3 = carteDuNiveau.getObjectLayer("delimitFufu3");
@@ -247,8 +247,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         momo3.setVelocity(-200,0);
         this.physics.add.overlap(player,momo3,degats,null,this);
         this.physics.add.collider(momo3,dede3,disparitionMomo3,null,this);
-      
-        calque_lave.setCollisionByProperty({ estLave: true});
+
 
         //collision jouer et calques plateformes, piques et lave
         this.physics.add.collider(player, calque_plateformes); 
@@ -268,7 +267,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         fifi = this.physics.add.group({immovable : true, allowGravity : false});
         calque_finJeu = carteDuNiveau.getObjectLayer("finJeu");
         calque_finJeu.objects.forEach(calque_finJeu => {
-          const inutileBisBis = fifi.create(calque_finJeu.x+16,calque_finJeu.y + 16,"")
+          const inutileBisBis = fifi.create(calque_finJeu.x+16,calque_finJeu.y + 16,"panneauTexture")
         });
         this.physics.add.overlap(player,fifi,gameWon,null,this);
 
@@ -434,26 +433,34 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       };
       
     };
+
+    //fonction utilisé quand le joueur touche des piques ou de la lave
     function death(){
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
     };
 
+    //fonction pour récupérer et compter les clés
     function collectClecle(player,clecle){
       clecle.disableBody(true,true);
       nbrClecle += 1;
     };
 
+    //fonction pour récupérer les potions
     function collectPopo(player,popo){
       popo.disableBody(true,true);
     };
+
+    //fonction pour ouvrir la porte quand le player la touche et si il a récupérer les 3 clés
     function openGate(player,gaga){
       if(nbrClecle == 3){
             console.log("portail ouvert");
             gaga.disableBody(true,true);
           };
     };
+
+    //2 fonctions qui font en sorte que le player glisse d'un côté ou l'autre 
     function defilerDroite(player,tataD){
       solEtat = 1;
       //player.setVelocityX(100)
@@ -462,18 +469,47 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
       solEtat = 2;
       //player.setVelocityX(-100)
     };
-    function degats(){
-      pvJoueur= pvJoueur - 1;
-      console.log("perdu 1 pv");
+
+    //fonction dégat, le joueur en prend quand il touche un nuage de fumé.
+    //frame d'invincibilité pas réussi T-T
+    function degats(player,momo1,momo2,momo3){
+      if(invincibilite == false){
+        pvJoueur= pvJoueur - 1;
+        console.log("perdu 1 pv");
+        afficherPv()
+      };
+      if (player.body.touching.up){
+        player.body.setVelocityX(-200);
+        invincibilite = true;
+      };
+      if (player.body.touching.down){
+        player.body.setVelocityX(200);
+        invincibilite = true;
+      };
+      if (player.body.touching.right){
+        player.body.setVelocityY(-100);
+        invincibilite = true;
+      };
+      if (player.body.touching.left){
+        player.body.setVelocityY(100);
+        invincibilite = true;
+      };
+      if(invincibilite == true){
+        setTimeout(ouiDegat(),2000)
+      };
       if(pvJoueur<=0){
         this.physics.pause();
         player.setTint(0x7FFF00);
         player.anims.play('turn');
         console.log("joueur mort par nuage d'acide")
-      }
-      afficherPv()
-      player.body.setVelocityY(-200);
+      };
+     
     };
+    function ouiDegat(){
+      invincibilite = false;
+    }
+
+    //les 3 fonctions suivantes : pour le patern des monstres
     function disparitionMomo1(momo1){
       if(momo1Spawn == true){
         momo1.body.position.x =930;
@@ -498,6 +534,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         momo3.disableBody(true,true);
       }
     };
+
+    //3 prochaines fonctions : pour faire disparaitre les monstres
     function actionnerPompe1(player,pompom1){
       momo1Spawn = false;
     };
@@ -507,14 +545,20 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function actionnerPompe3(player,pompom2,momo3){
       momo3Spawn = false;
     };
+
+    //pour débloquer le jump contre les murs
     function debloquePowpow(player,powpow){
       powpow.disableBody(true,true);
       wallJump = true;
     }
+
+    //arrete le jeu quand le joueur est en haut des marches
     function gameWon(){
       this.physics.pause();
       player.anims.play('turn');
     }
+
+    //fonction pour afficher la barre de vie (très barbare xD) mais ça marche
     function afficherPv(){
       if(pvJoueur == 3){
         this.barreDeVie0.visible = false;
