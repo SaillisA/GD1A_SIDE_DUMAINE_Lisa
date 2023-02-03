@@ -38,8 +38,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("tapisGaucheTexture","assets/blocLaveGauche.png");
         this.load.image("laveTexture","assets/laveVague.png");
         this.load.image("fumeTexture","assets/fume.png");
-        this.load.image("delimiTexture","assets/invisi.png")  //png transparent avec rien dessus pour avoir un object invisible
-
+        this.load.image("delimiTexture","assets/invisi.png");  //png transparent avec rien dessus pour avoir un object invisible
+        this.load.image("powerWallTexture","assets/pouvoir.png");
         //tentative d'utiliser un sprite pour l'animation de l'ennemis fumé TvT
         /*this.load.spritesheet("monstreTexture","assets/fumeSprite.png",
           {frameWidth : 61, frameHeigh : 35});*/
@@ -54,6 +54,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     var ouvPompom3 = true;
     var solEtat = 0;    //pour savoir si il y a un tapis roulant: 0=non; 1=roule a droite; 2=roule a gauche:
     var pvJoueur = 100;
+    var wallJump = false;//pour débloquer le wall jump. Si true : il est débloqué. si false : pas débloqué
 
     function create(){
         // chargement de la carte
@@ -81,8 +82,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         
 
         //joueur :
-        //player = this.physics.add.sprite(50, 1520, 'perso');
-        player = this.physics.add.sprite(930, 1440, 'perso');
+        player = this.physics.add.sprite(50, 1520, 'perso');
+        //player = this.physics.add.sprite(930, 1440, 'perso');
         //player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
@@ -243,6 +244,14 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.add.collider(player, calque_lave, death,null,this);
 
 
+        //object power up qui débloque le wall jump
+        powpow = this.physics.add.group({immovable : true ,allowGravity : false});
+        calque_powerWall = carteDuNiveau.getObjectLayer("powerWall");
+        calque_powerWall.objects.forEach(calque_powerWall => {
+          const inutile = powpow.create(calque_powerWall.x,calque_powerWall.y ,"powerWallTexture");
+        });
+        this.physics.add.overlap(player,powpow,debloquePowpow,null,this);
+
         //scoreText=this.add.text(player.body.x,player.body.y,'score: 0',{fontSize:'32px',fill:'#000'}).setScrollFactor(0);
 
         
@@ -288,10 +297,10 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
           player.setVelocityY(-200); //alors vitesse verticale négative
           //(on saute)
       };
-      if(cursors.up.isDown && player.body.blocked.right){
+      if((cursors.up.isDown && player.body.blocked.right)&& wallJump == true){
         player.setVelocityY(-200);
       };
-      if(cursors.up.isDown && player.body.blocked.left){
+      if((cursors.up.isDown && player.body.blocked.left) && wallJump == true){
         player.setVelocityY(-200);
       };
 
@@ -451,6 +460,10 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function actionnerPompe3(player,pompom2,momo3){
       momo3.disableBody(true,true)
     };
+    function debloquePowpow(player,powpow){
+      powpow.disableBody(true,true);
+      wallJump = true;
+    }
 </script>
 </body>
 </html>

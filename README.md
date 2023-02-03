@@ -3,19 +3,18 @@ Jeu Side Scroller
 
 Cahier des charges :
 o Indicateur de vie (coeurs ou jauge) & frames d’invulnérabilité
-●Ennemis
+o Ennemis
     ● ET faisant perdre de la vie
     ● ET ayant un comportement déterminé
     o ET que l’on peut faire disparaître
-● Action déplacement, selon thème :
-    ● rebond sur les parois rocheuses
-    o bouton d’accélération de la nage
-    o freinage d’urgence (exemple : jetpack) dans l’espace
-● Altération déplacement, selon thème :
-    ● inertie sur la glace & ralentissement sur la neige
-    o déplacement toutes directions (stick gauche manette) & résistance de l’eau
-    o gravité altérée, inertie du déplacement
-● Obstacles causant instantanément la fin du jeu (“mort” du personnage)
-o Power-up débloquant une nouvelle capacité (au choix, à expliquer)
-● Scrolling vertical & horizontal, parallaxe
+
+    ● Action déplacement, selon thème :
+        ● rebond sur les parois rocheuses
+
+    ● Altération déplacement, selon thème :
+        ● inertie sur la glace & ralentissement sur la neige
+
+    ● Obstacles causant instantanément la fin du jeu (“mort” du personnage)
+    ● Power-up débloquant une nouvelle capacité (au choix, à expliquer)
+    ● Scrolling vertical & horizontal, parallaxe
 o Contrôle manette uvu
