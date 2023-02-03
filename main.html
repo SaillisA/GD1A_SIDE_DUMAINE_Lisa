@@ -36,14 +36,23 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.load.image("pompeTexture","assets/pompe.png");
         this.load.image("tapisDroiteTexture","assets/blocLaveDroite.png");
         this.load.image("tapisGaucheTexture","assets/blocLaveGauche.png");
+        this.load.image("laveTexture","assets/laveVague.png");
+        this.load.image("fumeTexture","assets/fume.png");
+
+        //tentative d'utiliser un sprite pour l'animation de l'ennemis fumé TvT
+        /*this.load.spritesheet("monstreTexture","assets/fumeSprite.png",
+          {frameWidth : 61, frameHeigh : 35});*/
     }
 
     //le club des variables
     var platforms;
     var player;
     var nbrClecle = 0;
-    var nbrPompom = 0;  //pour savoir le nombre total de pompes fermées
+    var ouvPompom1 = true;  //pompe ouverte = true donc la fumée s'échappe, pompe fermée = false donc plus de fumée
+    var ouvPompom2 = true;
+    var ouvPompom3 = true;
     var solEtat = 0;    //pour savoir si il y a un tapis roulant: 0=non; 1=roule a droite; 2=roule a gauche:
+    var pvJoueur = 100;
 
     function create(){
         // chargement de la carte
@@ -71,7 +80,8 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         
 
         //joueur :
-        player = this.physics.add.sprite(50, 1520, 'perso');
+        //player = this.physics.add.sprite(50, 1520, 'perso');
+        player = this.physics.add.sprite(930, 1440, 'perso');
         //player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.anims.create({
@@ -80,7 +90,7 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             frameRate: 10,
             repeat: -1
         });
-            this.anims.create({
+        this.anims.create({
             key: 'turn',
             frames: [ { key: 'perso', frame: 4 } ],
             frameRate: 20
@@ -123,13 +133,28 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.add.collider(player,gaga,openGate,null,this);
 
 
-        //creation des pompes :
-        pompom = this.physics.add.group({immovable : true,allowGravity : false});
-        calque_pompe = carteDuNiveau.getObjectLayer("pompe");
-        calque_pompe.objects.forEach(calque_pompe =>{
-          const encoreTjInutile = pompom.create(calque_pompe.x +16,calque_pompe.y + 16, "pompeTexture");
+        //creation de pompe 1 :
+        pompom1 = this.physics.add.group({immovable : true,allowGravity : false});
+        calque_pompe1= carteDuNiveau.getObjectLayer("pompe1");
+        calque_pompe1.objects.forEach(calque_pompe1 =>{
+          const encoreTjInutile = pompom1.create(calque_pompe1.x +16,calque_pompe1.y + 16, "pompeTexture");
         });
-        this.physics.add.collider(player,pompom,actionnerPompe,null,this);
+        this.physics.add.collider(player,pompom1,actionnerPompe1,null,this);
+        //creation de pompe 2 :
+        pompom2 = this.physics.add.group({immovable : true,allowGravity : false});
+        calque_pompe2= carteDuNiveau.getObjectLayer("pompe2");
+        calque_pompe2.objects.forEach(calque_pompe2 =>{
+          const encoreTjInutile = pompom2.create(calque_pompe2.x +16,calque_pompe2.y + 16, "pompeTexture");
+        });
+        this.physics.add.collider(player,pompom2,actionnerPompe2,null,this);
+        //creation de pompe 3 :
+        pompom3 = this.physics.add.group({immovable : true,allowGravity : false});
+        calque_pompe3= carteDuNiveau.getObjectLayer("pompe3");
+        calque_pompe3.objects.forEach(calque_pompe3 =>{
+          const encoreTjInutile = pompom3.create(calque_pompe3.x +16,calque_pompe3.y + 16, "pompeTexture");
+        });
+        this.physics.add.collider(player,pompom3,actionnerPompe3,null,this);
+
 
 
         //creation tapis roulant droite :
@@ -150,7 +175,65 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         this.physics.add.collider(player,tataG,defilerGauche,null,this);
 
 
+        //création du haut de la lave (pour pouvoir faire un rendu plus joli qu'avec un calque normal)
+        lala = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_laLave = carteDuNiveau.getObjectLayer("laLave");
+        calque_laLave.objects.forEach(calque_laLave => {
+          const encoreTjPlusUltraInutile = lala.create(calque_laLave.x + 16, calque_laLave.y + 32, "laveTexture");
+        });
+        this.physics.add.overlap(player,lala,death,null,this);
 
+
+        //creation delimination invisible 1
+        dede1 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_delimitFufu1 = carteDuNiveau.getObjectLayer("delimitFufu1");
+        calque_delimitFufu1.objects.forEach(calque_delimitFufu1 => {
+          const encorelolUltraInutile = dede1.create(calque_delimitFufu1.x, calque_delimitFufu1.y, "");
+        });
+        //création du monstre 1 
+        momo1 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_monstre1 = carteDuNiveau.getObjectLayer("monstre1");
+        calque_monstre1.objects.forEach(calque_monstre1 => {
+          const encoreMegaUltraInutile = momo1.create(calque_monstre1.x, calque_monstre1.y+17.5, "fumeTexture");
+        });
+        this.physics.add.overlap(player,momo1,degats,null,this);
+        this.physics.add.collider(momo1,dede1,disparitionMomo1,null,this);
+        momo1.setVelocity(-50,0);
+
+
+
+        //creation delimination invisible 2
+         dede2 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_delimitFufu2 = carteDuNiveau.getObjectLayer("delimitFufu2");
+        calque_delimitFufu2.objects.forEach(calque_delimitFufu2 => {
+          const encorelolUltraInutile = dede2.create(calque_delimitFufu2.x, calque_delimitFufu2.y, "");
+        });
+         //création du monstre 2
+         momo2 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_monstre2 = carteDuNiveau.getObjectLayer("monstre2");
+        calque_monstre2.objects.forEach(calque_monstre2 => {
+          const encoreMegaUltraInutile = momo2.create(calque_monstre2.x, calque_monstre2.y+17.5, "fumeTexture");
+        });
+        momo2.setVelocity(-100,0);
+        this.physics.add.overlap(player,momo2,degats,null,this);
+        this.physics.add.collider(momo2,dede2,disparitionMomo2,null,this);
+        
+        //creation delimination invisible 3
+         dede3 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_delimitFufu3 = carteDuNiveau.getObjectLayer("delimitFufu3");
+        calque_delimitFufu3.objects.forEach(calque_delimitFufu3 => {
+          const encorelolUltraInutile = dede3.create(calque_delimitFufu3.x, calque_delimitFufu3.y, "");
+        });
+        //création du monstre 3 
+        momo3 = this.physics.add.group({immovable : true,allowGravity:false});
+        calque_monstre3 = carteDuNiveau.getObjectLayer("monstre3");
+        calque_monstre3.objects.forEach(calque_monstre3 => {
+          const encoreMegaUltraInutile = momo3.create(calque_monstre3.x, calque_monstre3.y+16, "fumeTexture");
+        });
+        momo3.setVelocity(-200,0);
+        this.physics.add.overlap(player,momo3,degats,null,this);
+        this.physics.add.collider(momo3,dede3,disparitionMomo3,null,this);
+      
         calque_lave.setCollisionByProperty({ estLave: true});
 
         //collision jouer et calques plateformes, piques et lave
@@ -337,33 +420,6 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
             gaga.disableBody(true,true);
           };
     };
-    function actionnerPompe(player,pompom){
-      if(nbr < 3){
-        nbrPompom +=1;
-      };
-      if(nbrPompom == 1){
-        fume1;
-        console.log("fumée 1 désactivé");
-      };
-      if(nbrPompom == 2){
-        fume2;
-        console.log("fumée 2 désactivé");
-      };
-      if(nbrPompom == 3){
-        fume3;
-        console.log("fumée 3 désactivé");
-      };
-    };
-    function fume1(){
-
-    };
-    function fume2(){
-
-    };
-    function fume3(){
-
-    };
-
     function defilerDroite(player,tataD){
       solEtat = 1;
       //player.setVelocityX(100)
@@ -371,6 +427,28 @@ src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     function defilerGauche(player,tataG){
       solEtat = 2;
       //player.setVelocityX(-100)
+    };
+    function degats(){
+      pvJoueur= pvJoueur - 25;
+      console.log("perdu 25 pv");
+    };
+    function disparitionMomo1(momo1){
+      momo1.body.position.x =930;
+    };
+    function disparitionMomo2(momo1){
+      momo1.body.position.x =930;
+    };
+    function disparitionMomo3(momo1){
+      momo1.body.position.x =930;
+    };
+    function actionnerPompe1(player,pompom1){
+      momo1.disableBody(true,true)
+    };
+    function actionnerPompe2(player,pompom2,momo2){
+      momo2.disableBody(true,true)
+    };
+    function actionnerPompe3(player,pompom2,momo3){
+      momo3.disableBody(true,true)
     };
 </script>
 </body>

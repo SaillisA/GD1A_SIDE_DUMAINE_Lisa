@@ -3,7 +3,7 @@ Jeu Side Scroller
 
 Cahier des charges :
 o Indicateur de vie (coeurs ou jauge) & frames d’invulnérabilité
-o Ennemis
+●Ennemis
     o ET faisant perdre de la vie
     o ET ayant un comportement déterminé
     o ET que l’on peut faire disparaître
@@ -18,3 +18,4 @@ o Ennemis
 ● Obstacles causant instantanément la fin du jeu (“mort” du personnage)
 o Power-up débloquant une nouvelle capacité (au choix, à expliquer)
 ● Scrolling vertical & horizontal, parallaxe
+o Contrôle manette uvu
