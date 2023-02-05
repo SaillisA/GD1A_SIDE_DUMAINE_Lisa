@@ -1,21 +1,14 @@
 # GD1A_SIDE_DUMAINE_Lisa
-Jeu Side Scroller
+Lab's Follie's
 
-Cahier des charges :
-    ● Indicateur de vie (coeurs ou jauge)
-o frames d’invulnérabilité
-    ● Ennemis
-        ● ET faisant perdre de la vie
-        ● ET ayant un comportement déterminé
-        ● ET que l’on peut faire disparaître
+Commandes :
+← → : se déplacer à gauche et à droite
+↑ ou A (sur manette) : sauter
+↓ : pour utiliser les téléporteur
 
-    ● Action déplacement, selon thème :
-        ● rebond sur les parois rocheuses
+Objectif :
+Récupérer les 3 clés a travers les différents téléporteurs afin d'accéder au dernier téléporteur et ainsi s'enfuir du laboratoire.
 
-    ● Altération déplacement, selon thème :
-        ● inertie sur la glace & ralentissement sur la neige
-
-    ● Obstacles causant instantanément la fin du jeu (“mort” du personnage)
-    ● Power-up débloquant une nouvelle capacité (au choix, à expliquer)
-    ● Scrolling vertical & horizontal, parallaxe
-    ● Contrôle manette uvu
+Infos suplémentaires : 
+Vous débloquerez un Power Up, vous permettant de grimper et sauter sur les murs.
+Il y a 3 fioles cachés dans le niveau
